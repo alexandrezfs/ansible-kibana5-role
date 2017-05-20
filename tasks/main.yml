@@ -1,0 +1,47 @@
+---
+
+- name: Ensure dependency is installed
+  apt:
+    name: apt-transport-https
+    state: present
+
+- name: Add Kibana apt key
+  apt_key:
+    url: "{{ kibana_apt_key }}"
+    state: present
+
+- name: Add Kibana repository
+  apt_repository:
+    repo: "{{ kibana_apt_repo }}"
+    state: present
+    update_cache: yes
+
+- name: Install Kibana
+  apt:
+    name: kibana={{ kibana_version }}
+    update_cache: yes
+
+- name: Ensure dependency is installed
+  apt:
+    name: apt-transport-https
+    state: present
+
+- name: Ensure Kibana is started and enabled at boot
+  service:
+    name: kibana
+    state: started
+    enabled: yes
+
+- name: Copy Kibana configuration
+  template:
+    src: kibana.yml.j2
+    dest: "/etc/kibana/kibana.yml"
+    owner: root
+    group: root
+    mode: 0644
+  notify: Restart Kibana
+
+- name: Make sure Kibana service is running
+  service:
+    state: started
+    name: kibana

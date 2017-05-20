@@ -1,0 +1,7 @@
+---
+kibana_version: "5.4.0"
+kibana_server_port: 5601
+kibana_server_host: "0.0.0.0"
+kibana_elasticsearch_url: "http://localhost:9200"
+kibana_apt_key: https://artifacts.elastic.co/GPG-KEY-elasticsearch
+kibana_apt_repo: deb https://artifacts.elastic.co/packages/5.x/apt stable main
